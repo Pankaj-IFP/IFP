@@ -24,15 +24,18 @@ import AddForm from "../../pages/map/form/AddForm";
 import EditForm from "../../pages/map/form/EditForm";
 
 // user
-import User from "../../pages/user";
+import User from "../../pages/sitemembers";
 
 // permission
 
-import Permission from "../../pages/permissions"
+import Permission from "../../pages/permissions";
+import managePermissions from "../../pages/permissions/manageUser/managePermissions";
 
-
+// industry
+import Industry from "../../pages/industry"
 // context
 import { useLayoutState } from "../../context/LayoutContext";
+
 
 function AdminLayout(props) {
   var classes = useStyles();
@@ -58,9 +61,11 @@ function AdminLayout(props) {
                 <Route exact path="/admin/map" component={Map} />
                 <Route path="/admin/map/add" component={AddForm} />
                 <Route path="/admin/map/edit/:id" component={EditForm} />
-
+                
                 <Route exact path="/admin/user/" component={User} />
-                <Route exact path="/admin/permission/" component={Permission} />
+                {/* <Route exact path="/admin/permission/" component={Permission} /> */}
+                <Route exact path="/admin/permission/" component={managePermissions} />
+                <Route exact path="/admin/industry/" component={Industry} />
 
               </Switch>
           </div>

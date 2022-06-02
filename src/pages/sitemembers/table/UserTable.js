@@ -14,6 +14,7 @@ const styles = theme => ({
 })
 
 const UserTable = ({ classes, ...props }) => {
+    
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
 
@@ -111,7 +112,9 @@ const UserTable = ({ classes, ...props }) => {
                 filter: false,
                 sort: false,
                 empty: true,
+            
                 customHeadRender: (columnMeta, handleToggleColumn) => {
+                   
                     return (
                         <th key={columnMeta.index} style={{paddingRight: "16px"}}>
                             <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-end"}}>
@@ -122,8 +125,20 @@ const UserTable = ({ classes, ...props }) => {
                             </div>
                         </th>
                     );
-                },
+                }
+            }
+         },
+            
+            
+            {
+                name: "",
+             options: {
+                filter: false,
+                sort: false,
+                empty: true,
+                // display: add_permission,
                 customBodyRender: (value, tableMeta, updateValue) => {
+                    console.log("tableMeta",tableMeta)
                     return (
                         <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-end"}}>
                             <FormDialogEditUser
@@ -138,8 +153,17 @@ const UserTable = ({ classes, ...props }) => {
                         </div>
                     );
                 }
-            }
+
+            },
+
+            
+            
+
+            
+            
+            
         }
+        
     ];
 
     const options = {
@@ -202,7 +226,10 @@ const mapActionToProps = {
     fetchPagination: actions.Pagination,
     create: actions.create,
     update: actions.update,
-    delete: actions.Delete
+    delete: actions.Delete,
+    add_permission: actions.add_permission,
+    
+
 }
 
 export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(UserTable));

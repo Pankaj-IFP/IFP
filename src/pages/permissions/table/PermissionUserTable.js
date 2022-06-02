@@ -3,9 +3,8 @@ import { Paper, withStyles } from '@material-ui/core';
 import MUIDataTable from "mui-datatables";
 import { connect } from "react-redux";
 import * as actions from "../../../actions/user";
-import FormDialogAddUser from "../formDialog/FormDialogAddUser";
-import FormDialogEditUser from "../formDialog/FormDialogEditUser";
-import FormDialogDeleteUser from "../formDialog/FormDialogDeleteUser";
+import { useHistory } from 'react-router-dom';
+import Checkbox from '../../permissions/table/Checkboxhandle'
 
 const styles = theme => ({
     paperTable: {
@@ -16,10 +15,19 @@ const styles = theme => ({
 const UserTable = ({ classes, ...props }) => {
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
+    const [addCheck, setAddCheck] = useState(false)
+    const [viewCheck, setViewCheck] = useState(false)
+    const [updateCheck, setUpdateCheck] = useState(false)
+    const [deleteCheck,setDeleteCheck] = useState(false)
+   
+    const history = useHistory();
+    
 
     useEffect(() => {
         props.fetchPagination(1, rowsPerPage)
-    }, [])
+    }, []
+    
+    )
 
     const handleChangePage = async (newPage) => {
         await setPage(newPage);
@@ -98,12 +106,26 @@ const UserTable = ({ classes, ...props }) => {
             }
         },
         {
-            name: "row",
-            label: "Permission",
+            name: "",
+            label: "Permissions",
             options: {
                 filter: false,
                 sort: false,
-                display: true,
+                empty: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                   
+                    return (
+                        <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-start"}}>
+
+                               <Checkbox
+                                dataUser={tableMeta.rowData}
+                                update={props.update}
+                            />
+                       
+                 
+                        </div>
+                    );
+                }
             }
         },
         {
@@ -115,12 +137,7 @@ const UserTable = ({ classes, ...props }) => {
                 customHeadRender: (columnMeta, handleToggleColumn) => {
                     return (
                         <th key={columnMeta.index} style={{paddingRight: "16px"}}>
-                            <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-end"}}>
-                                <FormDialogAddUser component={Paper}  
-                                    create={props.create}
-                                    refresh={refresh}
-                                />
-                            </div>
+                            
                         </th>
                     );
                 },
@@ -128,27 +145,10 @@ const UserTable = ({ classes, ...props }) => {
                     return (
                         
                         <div style={{display:"flex", flexDirection:"row", justifyContent:"flex-end"}}>
-                            <FormDialogEditUser
-                                dataUser={tableMeta.rowData}
-                                update={props.update}
-                            />
-                            <FormDialogDeleteUser 
-                                dataUser={tableMeta.rowData}
-                                delete={props.delete}
-                                refresh={refresh}
-                            />
-                             <FormDialogEditUser
-                                dataUser={tableMeta.rowData}
-                                update={props.update}
-                            />
-                            <FormDialogDeleteUser 
-                                dataUser={tableMeta.rowData}
-                                delete={props.delete}
-                                refresh={refresh}
-                            />
+                           
                         
-                                                   
-                            <FormDialogEditUser
+                                            
+                            {/* <FormDialogEditUser
                                 dataUser={tableMeta.rowData}
                                 update={props.update}
                             />
@@ -156,7 +156,7 @@ const UserTable = ({ classes, ...props }) => {
                                 dataUser={tableMeta.rowData}
                                 delete={props.delete}
                                 refresh={refresh}
-                            />
+                            /> */}
                             
                         </div>
                     );
@@ -165,9 +165,12 @@ const UserTable = ({ classes, ...props }) => {
         }
     ];
 
-    // const handleRowClick = (rowData, rowMeta) => {
-    //     alert("rowData");
-    // };
+    const handleRowClick = (rowData) => {
+
+         console.log("rawdataaaaaaa",rowData);
+      
+       history.push({pathname:'/admin/permission/managepermission',state : rowData});
+    };
      
     const options = {
         filterType: 'textField',
@@ -175,10 +178,10 @@ const UserTable = ({ classes, ...props }) => {
         selectableRows: false,
         rowsPerPageOptions: [5, 10, 25],
         serverSide: true,
-        viewColumns: false,
+        viewColumns: true,
         print: false,
         download: false,
-        // onRowClick: handleRowClick,
+        onRowClick: handleRowClick,
         rowsPerPage: rowsPerPage,
         count: props.meta.totalDocs || 0,
         page: page,
@@ -228,9 +231,14 @@ const mapStateToProps = state => ({
 
 const mapActionToProps = {
     fetchPagination: actions.Pagination,
-    create: actions.create,
-    update: actions.update,
-    delete: actions.Delete
+    // create: actions.create,
+    // update: actions.update,
+    // delete: actions.Delete,
+    add_permission: actions.add_permission,
+    view_permission: actions.view_permission,
+    update_permission: actions.update_permission,
+    delete_permission: actions.delete_permission
+    
 }
 
 export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(UserTable));

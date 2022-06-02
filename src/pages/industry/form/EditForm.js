@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, withStyles, Button, MenuItem, Paper, Grid } from "@material-ui/core";
 import { connect } from "react-redux";
 import { toast } from 'react-toastify';
@@ -43,10 +43,18 @@ const initialFormState = {
 	images : []
 }
 
-const AddForm = ({ classes, ...props }) => {
+const EditForm = ({ classes, ...props }) => {
 	const [ map, setMap ] = useState(initialFormState)
 	const [ errors, setErrors ] = useState({})
 	
+	useEffect(() => {
+		const onSuccess = (map) => {
+            setMap(map)
+		}
+		const id = props.match.params.id
+		props.fetchById(id, onSuccess)
+	}, [])
+
 	const handleInputChange = event => {
 		const { name, value } = event.target
 
@@ -69,98 +77,98 @@ const AddForm = ({ classes, ...props }) => {
 			tempErrors["name"] = "Cannot be empty";
 		}
 	
-		// if(!map.category){
-		// 	formIsValid = false;
-		// 	tempErrors["category"] = "Not selected yet";
-		// }
+		if(!map.category){
+			formIsValid = false;
+			tempErrors["category"] = "Not selected yet";
+		}
 	
-		// if(!map.description || map.description.trim() ===  ""){
-		// 	formIsValid = false;
-		// 	tempErrors["description"] = "Cannot be empty";
-		// }
+		if(!map.description || map.description.trim() ===  ""){
+			formIsValid = false;
+			tempErrors["description"] = "Cannot be empty";
+		}
 	
-		// if(!map.address || map.address.trim() ===  ""){
-		// 	formIsValid = false;
-		// 	tempErrors["address"] = "Cannot be empty";
-		// }
+		if(!map.address || map.address.trim() ===  ""){
+			formIsValid = false;
+			tempErrors["address"] = "Cannot be empty";
+		}
 
-		// if(!map.coordinate.lat || parseInt(map.coordinate.lat) === 0) {
-		// 	formIsValid = false;
-		// 	tempErrors["lat"] = "Cannot be zero or empty ";
-		// }
+		if(!map.coordinate.lat || parseInt(map.coordinate.lat) === 0) {
+			formIsValid = false;
+			tempErrors["lat"] = "Cannot be zero or empty ";
+		}
 
-		// if(!map.coordinate.lng || parseInt(map.coordinate.lng) === 0) {
-		// 	formIsValid = false;
-		// 	tempErrors["lng"] = "Cannot be zero or empty";
-		// }
+		if(!map.coordinate.lng || parseInt(map.coordinate.lng) === 0) {
+			formIsValid = false;
+			tempErrors["lng"] = "Cannot be zero or empty";
+		}
 
-		// if (Array.isArray(map.facilities)) {
-		// 	if (map.facilities.length === 0) {
-		// 		formIsValid = false;
-		// 		tempErrors["facilities"] = "Input not valid";
-		// 	}
-		// 	else {
-		// 		// eslint-disable-next-line
-		// 		for (const [index, facility] of map.facilities.entries()) {
-		// 			if (facility.trim() === "") {
-		// 				formIsValid = false;
-		// 				tempErrors["facilities"] = "Input not valid";
-		// 				break;
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// else {
-		// 	if (map.facilities.trim() ===  "") {
-		// 		formIsValid = false;
-		// 		tempErrors["facilities"] = "Cannot be empty";
-		// 	}
-		// 	else {
-		// 		let arr = map.facilities.split(",")
-		// 		// eslint-disable-next-line
-		// 		for (const [index, facility] of arr.entries()) {
-		// 			if (facility.trim() === "") {
-		// 				formIsValid = false;
-		// 				tempErrors["facilities"] = "Input not valid";
-		// 				break;
-		// 			}
-		// 		}
-		// 	}
-		// }
+		if (Array.isArray(map.facilities)) {
+			if (map.facilities.length === 0) {
+				formIsValid = false;
+				tempErrors["facilities"] = "Input not valid";
+			}
+			else {
+				// eslint-disable-next-line
+				for (const [index, facility] of map.facilities.entries()) {
+					if (facility.trim() === "") {
+						formIsValid = false;
+						tempErrors["facilities"] = "Input not valid";
+						break;
+					}
+				}
+			}
+		}
+		else {
+			if (map.facilities.trim() ===  "") {
+				formIsValid = false;
+				tempErrors["facilities"] = "Cannot be empty";
+			}
+			else {
+				let arr = map.facilities.split(",")
+				// eslint-disable-next-line
+				for (const [index, facility] of arr.entries()) {
+					if (facility.trim() === "") {
+						formIsValid = false;
+						tempErrors["facilities"] = "Input not valid";
+						break;
+					}
+				}
+			}
+		}
 			
-		// if (Array.isArray(map.images)) {
-		// 	if (map.images.length === 0) {
-		// 		formIsValid = false;
-		// 		tempErrors["images"] = "Input not valid";
-		// 	}
-		// 	else {
-		// 		// eslint-disable-next-line
-		// 		for (const [index, image] of map.images.entries()) {
-		// 			if (image.trim() === "") {
-		// 				formIsValid = false;
-		// 				tempErrors["images"] = "Input not valid";
-		// 				break;
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// else {
-		// 	if (map.images.trim() ===  "") {
-		// 		formIsValid = false;
-		// 		tempErrors["images"] = "Cannot be empty";
-		// 	}
-		// 	else {
-		// 		let arr = map.images.split(",")
-		// 		// eslint-disable-next-line
-		// 		for (const [index, image] of arr.entries()) {
-		// 			if (image.trim() === "") {
-		// 				formIsValid = false;
-		// 				tempErrors["images"] = "Input not valid";
-		// 				break;
-		// 			}
-		// 		}
-		// 	}
-		// }
+		if (Array.isArray(map.images)) {
+			if (map.images.length === 0) {
+				formIsValid = false;
+				tempErrors["images"] = "Input not valid";
+			}
+			else {
+				// eslint-disable-next-line
+				for (const [index, image] of map.images.entries()) {
+					if (image.trim() === "") {
+						formIsValid = false;
+						tempErrors["images"] = "Input not valid";
+						break;
+					}
+				}
+			}
+		}
+		else {
+			if (map.images.trim() ===  "") {
+				formIsValid = false;
+				tempErrors["images"] = "Cannot be empty";
+			}
+			else {
+				let arr = map.images.split(",")
+				// eslint-disable-next-line
+				for (const [index, image] of arr.entries()) {
+					if (image.trim() === "") {
+						formIsValid = false;
+						tempErrors["images"] = "Input not valid";
+						break;
+					}
+				}
+			}
+		}
       
 		setErrors(tempErrors);
 		return formIsValid;
@@ -169,18 +177,19 @@ const AddForm = ({ classes, ...props }) => {
 	const handleSubmit = (e) => {
 		const onSuccess = () => {
 			props.history.push("/admin/map")
-			toast.success('Data succesfully created');
+			toast.success('Data succesfully updated');
 		}
+		
         e.preventDefault();
 
         if(validate()){
-			props.create(map, onSuccess)
+			props.update(map.id, map, onSuccess)
         }
     }
 
 	return (
 		<React.Fragment>
-            <PageTitle title="Add Map" />
+            <PageTitle title="Edit Map" />
             <Grid container spacing={4} >
 
 				<Paper className={classes.paper}>
@@ -197,7 +206,8 @@ const AddForm = ({ classes, ...props }) => {
 						onChange={handleInputChange}
 						{...(errors.name && { error: true, helperText: errors.name })}
 					/>
-					{/* <TextField 
+
+					<TextField 
 						select
 						name="category"
 						label="Category" 
@@ -210,6 +220,7 @@ const AddForm = ({ classes, ...props }) => {
 						<MenuItem value={"apartment"}>Apartment</MenuItem>
 						<MenuItem value={"office"}>Office</MenuItem>
 					</TextField>
+
 					<TextField
 						name="description"
 						variant="outlined"
@@ -282,7 +293,8 @@ const AddForm = ({ classes, ...props }) => {
 						value={map.images}
 						onChange={handleInputChange}
 						{...(errors.images && { error: true, helperText: errors.images })}
-					/> */}
+					/>
+
 					<div className="form-button-container">
 						<Button
 							variant="contained"
@@ -298,17 +310,21 @@ const AddForm = ({ classes, ...props }) => {
 							type="submit"
 						>Save</Button>
 					</div>
+					
 				</form>
-
 				</Paper>
 			</Grid>
 		</React.Fragment>
     );
 }
 
+const mapStateToProps = state => ({
+    mapList: state.map.list
+})
+
 const mapActionToProps = {
-    create: actions.create,
-    update: actions.update
+	fetchById: actions.fetchById,
+	update: actions.update
 }
 
-export default connect(null, mapActionToProps)(withStyles(styles)(AddForm));
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(EditForm));

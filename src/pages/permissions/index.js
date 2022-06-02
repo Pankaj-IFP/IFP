@@ -2,7 +2,7 @@ import React from "react";
 import { Paper, Grid, withStyles } from '@material-ui/core';
 import PageTitle from "../../components/PageTitle/PageTitle";
 import './style.css';
-import UserTable from "./table/UserTable"
+import PermissionUserTable from "./table/PermissionUserTable"
 
 const styles = theme => ({
     paper: {
@@ -20,7 +20,7 @@ const User = ({ classes, ...props }) => {
             <Grid container spacing={4}>
                 <Grid item xs={12} >
                     <Paper className={classes.paper}>
-                        <UserTable />
+                        <PermissionUserTable />
                     </Paper>
                 </Grid>
             </Grid>

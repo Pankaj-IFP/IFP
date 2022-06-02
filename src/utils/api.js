@@ -1,4 +1,5 @@
 import axios from "axios";
+import { add_permission } from "../actions/user";
 
 const http = axios.create({
   baseURL: 'http://localhost:3001/api/',
@@ -51,15 +52,21 @@ export default {
           'authorization': 'Bearer ' + localStorage.getItem('token')
         }
       };
-
+      
       return {
           fetchAll: () => http.get(url + '/list', config),
+          getdata: () => http.get(url + '/list', config),
+
           fetchPagination: (page, limit = 10, name = null, email = null) => 
               http.get(url + "?page=" + page + "&limit=" + limit + "&name=" + name + "&email=" + email, config),
           fetchById: id => http.get(url + "/" + id, config),
           create: newRecord => http.post(url, newRecord, config),
           update: (id, updatedRecord) => http.put(url + "/" + id, updatedRecord, config),
-          delete: id => http.delete(url + "/" + id, config)
+          delete: id => http.delete(url + "/" + id, config),
+          add_permission: (id, updatedRecord) => http.put(url + "/add_permission/" + id, updatedRecord, config),
+          view_permission: (id, updatedRecord) => http.put(url + "/view_permission/" + id, updatedRecord, config),
+          delete_permission: (id, updatedRecord) => http.put(url + "/delete_permission/" + id, updatedRecord, config),
+          update_permission: (id, updatedRecord) => http.put(url + "/update_permission/" + id, updatedRecord, config),
       }
   }
 

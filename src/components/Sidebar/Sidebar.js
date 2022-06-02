@@ -5,8 +5,12 @@ import {
   LibraryBooks as LibraryIcon,
   ArrowBack as ArrowBackIcon,
   Person as AccountIcon,
+
 } from "@material-ui/icons";
 import PublicIcon from '@material-ui/icons/Public';
+
+import BusinessIcon from '@material-ui/icons/Business';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import classNames from "classnames";
@@ -27,9 +31,9 @@ import {
 
 const structure = [
   { id: 0, label: "Dashboard", link: "/admin/dashboard", icon: <HomeIcon /> },
-  { id: 1, label: "Manage Permissions", link: "/admin/permission", icon: <AccountIcon /> },
+  { id: 1, label: "Manage Permissions", link: "/admin/permission", icon: <LockOpenIcon /> },
   { id: 2, label: "Site Members", link: "/admin/user", icon: <AccountIcon /> },
-  { id: 3, label: "Industry", link: "/admin/usercontext", icon: <AccountIcon /> },
+  { id: 3, label: "Industry", link: "/admin/industry", icon: <BusinessIcon /> },
   { id: 4, label: "Technology", link: "/admin/map", icon: <PublicIcon /> },
   { id: 5, type: "divider" },
   { id: 6, type: "title", label: "SETTINGS" },
