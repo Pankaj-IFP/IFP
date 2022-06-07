@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper, Grid, withStyles } from '@material-ui/core';
 import PageTitle from "../../components/PageTitle/PageTitle";
-import './style.css';
+import './style.scss';
 import PermissionUserTable from "./table/PermissionUserTable"
 
 const styles = theme => ({

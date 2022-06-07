@@ -144,6 +144,14 @@ export const Delete = (id, onSuccess) => dispatch => {
 }
 
 // permissions
+export const permissions = (id, input)=> {
+    API.user().permissions(id, input)
+        .then(res =>{
+            console.log('RESPONSE FROM BACKEND',res)
+        })
+        .catch(err => console.log(err))
+}
+
 export const add_permission = (id, input)=> {
     API.user().add_permission(id, input)
         .then(res =>{

@@ -67,6 +67,7 @@ export default {
           view_permission: (id, updatedRecord) => http.put(url + "/view_permission/" + id, updatedRecord, config),
           delete_permission: (id, updatedRecord) => http.put(url + "/delete_permission/" + id, updatedRecord, config),
           update_permission: (id, updatedRecord) => http.put(url + "/update_permission/" + id, updatedRecord, config),
+          permissions: (id, updatedRecord) => http.put(url + "/permissions/" + id, updatedRecord, config),
       }
   }
 
